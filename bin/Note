@@ -1,0 +1,57 @@
+Things to do before install Linux
+  push ~/.vim/ to github
+  upload /etc/inputrc to github
+  upload all files in ~/bin/ to github
+  upload ~/.bashrc to github
+  upload ~/.gitconfig to github
+  upload stylish.json to github
+  upload to-do to dropbox
+  upload this file to dropbox
+  cvimrc
+
+Things to do after install Linux:
+  Map shortcut keys:
+    Menu -> Keyboard -> Shortcuts tab
+      -> General
+        -> Cycle through open windows                -> Alt + F
+        -> Cycle backwards through open windows      -> Alt + S
+      -> Window
+        -> Close window                              -> Alt + /
+        -> Show desktop                              -> Alt + W
+      -> System
+        -> Lock screen                               -> Shift + Tab
+        -> Copy a screenshot of an area to clipboard -> Ctrl + Print
+        -> Copy a screenshot to clipboard            -> Print
+        -> Hardware
+          -> Rotate display                          -> Ctrl + Alt + R
+          -> Decrease screen brightness              -> Ctrl + 7
+          -> Increase screen brightness              -> Ctrl + 8
+      -> Launchers
+        -> Launch terminal                           -> F1
+        -> Home folder                               -> F4
+      -> Sound and Media 
+        -> Volume mute                               -> Alt + 6
+        -> Volume down                               -> Alt + 7
+        -> Volumn up                                 -> Alt + 8
+      -> Custom Shortcuts
+        -> Start Gvim                                -> F2
+        -> Start Chrome                              -> F3
+
+    iBus -> Preference -> Keyboard Shortcuts         -> Alt + minus
+
+  git clone vim-config
+  Download inputrc and put it in /etc/
+  Download bash files and put in ~/bin/
+  Download ~/.bashrc
+  Download ~/.gitconfig
+  Download stylish.json to github
+  Download to-do to dropbox
+  Download this file to dropbox
+  cvimrc
+
+  Make a dummy _vimrc in ~/ and add one line: source ~/.vim/plugin/00_config.vim
+  Make a command to source ~/bin/mapkeys.sh at startup, other script can safely wait till the shell is opened but not this one
+
+Things to do after install window:
+  Disable Fast start-up (always hibernate instead of shutdown) because data can be lose when entering other OS
+
