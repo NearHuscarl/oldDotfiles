@@ -6,7 +6,7 @@
 #              the folder containing it and point to the equivalent file/folder
 #              in this repo
 # Author:      Near Huscarl <near.huscarl@gmail.com>
-# Last Change: Thu Sep 07 04:17:02 +07 2017
+# Last Change: Thu Sep 07 04:47:23 +07 2017
 # Licence:     BSD 3-Clause license
 # Note:        N/A
 # ============================================================================
@@ -80,9 +80,11 @@ dotfilesOld=$HOME/dotfilesOld
 declare -a targetPaths=(\
    "bin"\
    ".config/i3"\
+   ".config/compton.conf"\
    ".config/ncmpcpp"\
    ".config/polybar"\
    ".config/rofi"\
+   ".config/xfce4"\
    ".inputrc"\
    )
 
@@ -90,9 +92,11 @@ declare -a targetPaths=(\
 declare -a sourcePaths=(\
    "bin"\
    "i3"\
+   "compton/compton.conf"\
    "ncmpcpp"\
    "polybar"\
    "rofi"\
+   "xfce4"\
    ".inputrc"\
    )
 

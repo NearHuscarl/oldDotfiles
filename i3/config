@@ -170,6 +170,7 @@ bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws_misc
 
+bindsym $mod+n workspace back_and_forth
 bindsym $mod+period workspace next
 bindsym $mod+comma workspace prev
 
@@ -195,6 +196,10 @@ mode "move" {
         bindsym 8 mode "default"; move container to workspace $ws8; workspace $ws8
         bindsym 9 mode "default"; move container to workspace $ws9; workspace $ws9
         bindsym 0 mode "default"; move container to workspace $ws_misc; workspace $ws_misc
+
+        # move focused container to next/prev workspace
+        bindsym period move container to workspace next; workspace next
+        bindsym comma  move container to workspace prev; workspace prev
 
         # back to normal: Enter or Escape
         bindsym $mod+m mode "default"
@@ -227,6 +232,8 @@ bindsym $mod+Shift+e exec --no-startup-id "i3-nagbar \
    This will end your X session.'\
    -b 'Yes, exit i3' 'i3-msg exit'"
 
+# Make focused window scratchpad
+bindsym $mod+shift+minus move scratchpad
 # Show the first scratchpad window
 bindsym $mod+minus scratchpad show
 
@@ -271,6 +278,7 @@ for_window [window_type="menu"]        floating enable
 for_window [class="Pavucontrol"]       floating enable
 for_window [class="File-roller"]       floating enable
 for_window [class="Nitrogen"]          floating enable
+for_window [class="Gucharmap"]          floating enable
 for_window [title="Floating"]          floating enable
 
 
@@ -337,8 +345,14 @@ mode "$mode_gaps_outer" {
 }
 bindsym $mod+Shift+g mode "$mode_gaps_inner"
 
+# xfce4 already done that
+# bindsym XF86AudioRaiseVolume exec amixer -q set Master 2dB+ unmute
+# bindsym XF86AudioLowerVolume exec amixer -q set Master 2dB- unmute
+# bindsym XF86AudioMute exec amixer -q set Master toggle
 
 # temp settings
 
 # reload polybar
 bindsym $mod+shift+p exec --no-startup-id $HOME/bin/rld-polybar.sh
+# bindsym $mod+y move scratchpad
+bindsym $mod+p scratchpad show
