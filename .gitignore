@@ -1,0 +1,9 @@
+vim/undo/
+vim/swapfiles/
+vim/session/
+vim/plugged/
+
+tags
+plug.vim
+*.png
+*.jpg
