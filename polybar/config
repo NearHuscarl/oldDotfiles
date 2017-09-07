@@ -55,7 +55,7 @@ font-3 = "DejaVu Math TeX Gyre:pixelsize=10;1"
 
 modules-left = bspwm i3
 modules-center = mpd
-modules-right = cpu memory filesystem home xbacklight volume xkeyboard battery temperature date time wired-network wireless-network powermenu
+modules-right = cpu memory wired-network wireless-network filesystem home xbacklight volume xkeyboard battery temperature date time pac-update powermenu
 
 ; tray-position = right
 ; tray-padding = 2
@@ -450,6 +450,15 @@ animation-charging-framerate = 750
 ; margin-bottom = 5
 
 ; ; vim:ft=dosini
+;
+[module/pac-update]
+type = custom/script
+interval = 1200
+format = <label>
+; format-underline = #dc322f
+label = "%output:0:30%"
+exec = .config/polybar/pac-update.sh
+exec-if = "ping -q -w 2 -c 1 176.34.135.167 > /dev/null"
 
 [module/powermenu]
 type = custom/menu
