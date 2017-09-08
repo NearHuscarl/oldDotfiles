@@ -6,7 +6,7 @@
 #              the folder containing it and point to the equivalent file/folder
 #              in this repo
 # Author:      Near Huscarl <near.huscarl@gmail.com>
-# Last Change: Thu Sep 07 04:47:23 +07 2017
+# Last Change: Fri Sep 08 16:03:32 +07 2017
 # Licence:     BSD 3-Clause license
 # Note:        N/A
 # ============================================================================
@@ -63,6 +63,7 @@ print_option_for_exist_symlink () {
       1 - backup and replace\n \
       2 - overwrite\n \
       3 - skip\n \
+      4 - skip all\n \
  Choice: "
 }
 
@@ -82,9 +83,12 @@ declare -a targetPaths=(\
    ".config/i3"\
    ".config/compton.conf"\
    ".config/ncmpcpp"\
+   ".config/neofetch"\
    ".config/polybar"\
    ".config/rofi"\
+   ".vim"\
    ".config/xfce4"\
+   ".bashrc"\
    ".inputrc"\
    )
 
@@ -94,13 +98,22 @@ declare -a sourcePaths=(\
    "i3"\
    "compton/compton.conf"\
    "ncmpcpp"\
+   "neofetch"\
    "polybar"\
    "rofi"\
+   "vim"\
    "xfce4"\
+   ".bashrc"\
    ".inputrc"\
    )
 
 numOfSymlink=${#sourcePaths[@]}
+
+# skip all the exist files
+isSkipAll=0
+
+# option to choose when detect exist files
+option="" 
 
 # store a list of strings to be execute as commands
 declare -a result=()
@@ -118,8 +131,6 @@ fi
 # loop through all files/folders to symlink to proper location, if files/folders
 # already exists ask whether to overwrite, backup, or skip to the next files/folders
 
-option=""
-
 for i in ${!sourcePaths[@]}; do
 
    source="$(pwd)/${sourcePaths[i]}"
@@ -127,13 +138,20 @@ for i in ${!sourcePaths[@]}; do
 
    if [[ -e "$target" ]]; then 
 
+      if [[ "$isSkipAll" == 1 ]]; then 
+         print_info "Skip making symlink from "$source" to "$target""
+         result+=("print_error '$target → $source'")
+         continue
+      fi
+
       # find existed $file in $config, ask for confirmation:
       #  -overwrite
       #  -backup
-      #  -cancel
+      #  -skip
+      #  -skip all
 
       # repeat the question if detect wrong input
-      while [[ "$option" != "1" ]] && [[ "$option" != "2" ]] && [[ "$option" != "3" ]]; do
+      while [[ ! "$option" =~ [1234] ]]; do
          print_option_for_exist_symlink $target
          read -n 1 option
 
@@ -158,6 +176,11 @@ for i in ${!sourcePaths[@]}; do
                continue
             fi
          elif [[ "$option" == "3" ]]; then
+            print_info "Skip making symlink from "$source" to "$target""
+            result+=("print_error '$target → $source'")
+            break
+         elif [[ "$option" == "4" ]]; then
+            isSkipAll=1
             print_info "Skip making symlink from "$source" to "$target""
             result+=("print_error '$target → $source'")
             break
