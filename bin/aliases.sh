@@ -35,6 +35,8 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 
 # Other
+alias alias-ed="vim $HOME/bin/aliases.sh"
+alias alsa-fix="sudo /usr/local/bin/alsa-fix.sh"
 alias music="ncmpcpp"
 alias todo="vim ~/misc/Todo"
 alias plan="vim ~/misc/plan"
@@ -43,7 +45,9 @@ alias pac="sudo pacman"
 alias syctl="sudo systemctl"
 
 # Shortcuts to edit config file
-alias i3-conf="vim $HOME/.config/i3/config"
 alias compton-conf="vim ~/.config/compton.conf"
+alias dunst-conf="vim ~/.config/dunst/dunstrc"
+alias i3-conf="vim $HOME/.config/i3/config"
+alias neofetch-conf="vim ~/.config/neofetch/config"
 alias polybar-conf="vim ~/.config/polybar/config"
 alias vimrc="vim ~/.vim/plugin/00_config.vim"
