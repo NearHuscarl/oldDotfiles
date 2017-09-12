@@ -9,20 +9,22 @@
 
 [colors]
 ;background = ${xrdb:color0:#222}
+;foreground = ${xrdb:color7:#222}
+
 background = #ff1F2D3A
 background-alt = #ff2C3E50
-;foreground = ${xrdb:color7:#222}
 foreground = #ecf0f1
 foreground-alt = #84888B
 primary = #e74c3c
 secondary = #f39c12
 alert = #bd2c40
 
-red = #e74c3c
-orange = #f39c12
-yellow = #f1c40f
-green = #27AE60
+red        = #e74c3c
+orange     = #f39c12
+yellow     = #f1c40f
+green      = #27AE60
 lightgreen = #2ecc71
+cyan       = #16a085
 
 [bar/holybar]
 ;monitor = ${env:MONITOR:HDMI-1}
@@ -59,11 +61,11 @@ font-2 = fontawesome:pixelsize=10;1
 font-3 = "DejaVu Math TeX Gyre:pixelsize=10;1"
 font-4 = "DejaVu Sans:pixelsize=10;1"
 
-modules-left = bspwm i3
-modules-center = mpd
+modules-left = bspwm i3 mpd
+; modules-center = 
 modules-right = wired-network wireless-network cpu memory filesystem home xbacklight volume xkeyboard battery temperature date time pac-update powermenu
 
-; tray-position = right
+#tray-position = right
 ; tray-padding = 2
 ;tray-transparent = true
 ; tray-background = #0063ff
@@ -182,8 +184,8 @@ wrapping-scroll = false
 ;pin-workspaces = true
 
 label-mode-padding = 1
-label-mode-foreground = ${colors.foreground}
-label-mode-background = ${colors.background-alt}
+label-mode-foreground = ${colors.background}
+label-mode-background = ${colors.orange}
 
 ; focused = Active workspace on focused monitor
 label-focused = %icon%
@@ -223,10 +225,11 @@ ws-icon-0 = 0;
 [module/mpd]
 type = internal/mpd
 ; <label-song>
-format-online = <icon-prev> <icon-stop> <toggle> <icon-next> <icon-repeat> <icon-random>
+format-online = <icon-prev> <icon-stop> <toggle> <icon-next> <icon-repeat> <icon-random> <label-song>
 
 icon-prev = 
 icon-stop = 
+icon-stop-foreground = ${colors.red}
 icon-play = 
 icon-pause = 
 icon-next = 
@@ -236,7 +239,10 @@ icon-repeat = 
 toggle-on-foreground = ${colors.foreground}
 toggle-off-foreground = ${colors.foreground-alt}
 
-label-song = %title%
+label-song-prefix = 
+label-song =  %title:2:25%
+label-offline =  mpd is offline
+; label-song-foreground = ${colors.foreground-alt}
 
 ; icon-prev = 
 ; icon-stop = 
@@ -271,7 +277,7 @@ label-song-ellipsis = true
 
 [module/cpu]
 type = internal/cpu
-interval = 1
+interval = 0.7
 format-prefix-foreground = ${colors.foreground-alt}
 format-prefix = " "
 ; format-prefix-foreground = ${colors.foreground-alt}
@@ -316,23 +322,31 @@ type = internal/network
 interface = wlo1
 interval = 3.0
 
-format-connected = <ramp-signal> <label-connected>
+; label-disconnected = " not connected"
+; label-disconnected-foreground = ${colors.foreground-alt}
+
+format-connected = <ramp-signal><label-connected>
 ; format-connected-underline = #9f78e1
-label-connected = %essid%
+label-connected = %essid% %signal%
 
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
+;
+ramp-signal-0 = 
+ramp-signal-1 = 
+ramp-signal-2 = 
+ramp-signal-3 = 
+ramp-signal-4 = 
 
-ramp-signal-0-foreground = ${colors.foreground-alt}
-ramp-signal-1-foreground = ${colors.foreground-alt}
-ramp-signal-2-foreground = ${colors.foreground-alt}
-ramp-signal-3-foreground = ${colors.foreground-alt}
-ramp-signal-4-foreground = ${colors.foreground-alt}
+ramp-signal-0-foreground = ${colors.background-alt}
+ramp-signal-1-foreground = ${colors.red}
+ramp-signal-2-foreground = ${colors.orange}
+ramp-signal-3-foreground = ${colors.yellow}
+ramp-signal-4-foreground = ${colors.green}
 
-ramp-signal-foreground = ${colors.foreground-alt}
+animation-packetloss-0 = 
+animation-packetloss-0-foreground = #ffa64c
+animation-packetloss-1 = 
+animation-packetloss-1-foreground = ${bar/top.foreground}
+animation-packetloss-framerate = 500
 
 [module/wired-network]
 
@@ -389,7 +403,7 @@ label-volume = %percentage%%
 format-muted-prefix = " "
 format-muted-prefix-foreground = ${colors.foreground-alt}
 ; format-muted-foreground = ${colors.foreground-alt}
-label-muted = "muted"
+label-muted = "[M]"
 ; label-muted-underline = ${colors.red}
 
 format-volume-spacing = 1
@@ -458,9 +472,9 @@ ramp-capacity-3 = 
 ramp-capacity-4 = 
 
 ramp-capacity-0-foreground = ${colors.red}
-ramp-capacity-1-foreground = ${colors.red}
-ramp-capacity-2-foreground = ${colors.yellow}
-ramp-capacity-3-foreground = ${colors.orange}
+ramp-capacity-1-foreground = ${colors.yellow}
+ramp-capacity-2-foreground = ${colors.orange}
+ramp-capacity-3-foreground = ${colors.green}
 ramp-capacity-4-foreground = ${colors.lightgreen}
 
 animation-charging-0 = 
