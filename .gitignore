@@ -3,6 +3,7 @@ vim/swapfiles/
 vim/session/
 vim/plugged/
 
+.netrwhist
 tags
 plug.vim
 *.png
