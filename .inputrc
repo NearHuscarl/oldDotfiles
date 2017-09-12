@@ -1,12 +1,15 @@
 # ignore case when completing
-set completion-ignore-case On
+set completion-ignore-case on
 # only one tab for completion, even if there is more than one option
 set show-all-if-ambiguous on
 
 set menu-complete-display-prefix on
 
+# how many possibilities before asking to show all
+set completion-query-items 30
+
 set visible-stats on
-set expand-tilde on
+set expand-tilde off
 set editing-mode vi
 # show current mode when using with vi
 set show-mode-in-prompt on
@@ -23,6 +26,7 @@ $if mode=vi
 
    set keymap vi-insert 
    "\e[": vi-movement-mode
+   "\t": menu-complete
    "\en": menu-complete
    "\ep": menu-complete-backward
    "\ej": history-search-forward
