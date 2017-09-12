@@ -1,0 +1,13 @@
+[user]
+	name = Near Huscarl
+	email = near.huscarl@gmail.com
+[color]
+	ui = true
+[color "status"]
+   added = green
+   changed = yellow
+   untracked = red
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+; vim:ft=gitconfig

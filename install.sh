@@ -6,7 +6,7 @@
 #              the folder containing it and point to the equivalent file/folder
 #              in this repo
 # Author:      Near Huscarl <near.huscarl@gmail.com>
-# Last Change: Fri Sep 08 16:03:32 +07 2017
+# Last Change: Mon Sep 11 17:43:33 +07 2017
 # Licence:     BSD 3-Clause license
 # Note:        N/A
 # ============================================================================
@@ -25,7 +25,7 @@ print_error() {
 
 # print output in blue
 print_info() {
-   printf "\n\e[0;34m  [ i ] $1\e[0m\n"
+   printf "\e[0;34m  [ i ] $1\e[0m\n"
 }
 
 # print output in yellow
@@ -71,6 +71,9 @@ print_option_for_exist_symlink () {
 # Variables #
 #############
 
+# current working dir
+pwd=$(pwd)
+
 # config directory
 config=$HOME/.config
 
@@ -80,8 +83,9 @@ dotfilesOld=$HOME/dotfilesOld
 # list of files/folders to symlink (start from $HOME)
 declare -a targetPaths=(\
    "bin"\
-   ".config/i3"\
    ".config/compton.conf"\
+   ".config/i3"\
+   ".config/git"\
    ".config/ncmpcpp"\
    ".config/neofetch"\
    ".config/polybar"\
@@ -95,8 +99,9 @@ declare -a targetPaths=(\
 # list of source files/folders (relative to this repo)
 declare -a sourcePaths=(\
    "bin"\
-   "i3"\
    "compton/compton.conf"\
+   "i3"\
+   "git"\
    "ncmpcpp"\
    "neofetch"\
    "polybar"\
@@ -128,12 +133,17 @@ if [[ ! -d "$dotfilesOld" ]]; then
    execute "mkdir -p $dotfilesOld"
 fi
 
+# move dir to $HOME to make some systemd setup work
+if [[ ! "$pwd" == "$HOME/dotfiles" ]]; then
+   execute "mv $pwd $HOME"
+fi
+
 # loop through all files/folders to symlink to proper location, if files/folders
 # already exists ask whether to overwrite, backup, or skip to the next files/folders
 
 for i in ${!sourcePaths[@]}; do
 
-   source="$(pwd)/${sourcePaths[i]}"
+   source="$pwd/${sourcePaths[i]}"
    target="$HOME/${targetPaths[i]}"
 
    if [[ -e "$target" ]]; then 
@@ -153,7 +163,7 @@ for i in ${!sourcePaths[@]}; do
       # repeat the question if detect wrong input
       while [[ ! "$option" =~ [1234] ]]; do
          print_option_for_exist_symlink $target
-         read -n 1 option
+         read option
 
          if [[ "$option" == "1" ]]; then
             execute "mv $target $dotfilesOld"
@@ -198,6 +208,9 @@ for i in ${!sourcePaths[@]}; do
    fi
 
 done
+
+# add bin/ to PATH variable
+export PATH="$PATH":$pwd/bin
 
 # print result about symlink operation
 if [[ ! -z "$result" ]]; then
