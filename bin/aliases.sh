@@ -229,13 +229,14 @@ toggle-tray() {
 # note: if not work. try to source the completion script first by typing the original
 # command, then <tab> to trigger to script, and try again
 if [ -d /usr/share/bash-completion/completions ]; then
-   local completionPath="/usr/share/bash-completion/completions"
-   local bin="$HOME/bin"
+   completionPath="/usr/share/bash-completion/completions"
+   bin="$HOME/bin"
 
    # source $completionPath/pacman (_completion_loader pacman works too)
    # _completion_loader pacman
    source $completionPath/pacman
    source $completionPath/journalctl
+   source $completionPath/git
    # source $completionPath/systemctl
    source $bin/completion-utils.sh
    source $bin/completion-wrapper.sh
@@ -270,5 +271,29 @@ if [ -d /usr/share/bash-completion/completions ]; then
    complete -o default -F _sd-status sd-status
 
    complete -o default -F _journalctl sd-log
+
+   # git
+   # git completion script already have its own function to set up completion
+   # for functions or commands, so no need to use complete-wrapper function
+   # see https://gist.github.com/JuggoPop/10706934
+   __git_complete gstat      _git_status
+   __git_complete gadd       _git_add
+   __git_complete gcommit    _git_commit
+   __git_complete glog       _git_log
+   __git_complete glogstat   _git_log
+   __git_complete glogdiff   _git_log
+   __git_complete gpull      _git_pull
+   __git_complete gpush      _git_push
+   __git_complete gfixcommit _git_commit
+   __git_complete gfixstage  _git_commit
+   __git_complete gunstage   _git_reset
+   __git_complete gswitch    _git_checkout
+   __git_complete gnewbranch _git_branch
+   __git_complete gmerge     _git_merge
+   __git_complete gdiff      _git_diff
+
+   # __git_complete gdelbranch __gitcomp
+   complete -o default -F _git_branch_d gdelbranch
+   complete -o default -F _git_log_S gscommit
 fi
 
