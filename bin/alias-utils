@@ -4,7 +4,7 @@
 # File:        alias-utils
 # Description: Function for custom alias script
 # Author:      Near Huscarl <near.huscarl@gmail.com>
-# Last Change: Wed Sep 13 20:40:32 +07 2017
+# Last Change: Wed Sep 13 20:44:44 +07 2017
 # Licence:     BSD 3-Clause license
 # Note:        N/A
 # ============================================================================
@@ -93,11 +93,11 @@ function alias-pic() {
          # search dirs (r)ecursively for images
          # open at pic (n)umber <NUM> which is the selected picture
          sxiv -s h -b -n "$((i+1))" *.@$picExt
+         shopt -u nullglob
          return 0
       fi
    done
 
-   shopt -u nullglob
 }
 
 function alias-toggle-tray() {
