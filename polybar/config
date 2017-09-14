@@ -65,7 +65,7 @@ modules-left = bspwm i3 mpd
 ; modules-center = 
 modules-right = wired-network wireless-network cpu memory filesystem home xbacklight volume xkeyboard battery temperature date time pac-update powermenu
 
-#tray-position = right
+;tray-position = right
 ; tray-padding = 2
 ;tray-transparent = true
 ; tray-background = #0063ff
@@ -471,11 +471,13 @@ ramp-capacity-2 = 
 ramp-capacity-3 = 
 ramp-capacity-4 = 
 
+ramp-capacity-foreground = ${colors.foreground-alt}
+
 ramp-capacity-0-foreground = ${colors.red}
-ramp-capacity-1-foreground = ${colors.yellow}
-ramp-capacity-2-foreground = ${colors.orange}
-ramp-capacity-3-foreground = ${colors.green}
-ramp-capacity-4-foreground = ${colors.lightgreen}
+; ramp-capacity-1-foreground = ${colors.yellow}
+; ramp-capacity-2-foreground = ${colors.orange}
+; ramp-capacity-3-foreground = ${colors.green}
+; ramp-capacity-4-foreground = ${colors.lightgreen}
 
 animation-charging-0 = 
 animation-charging-1 = 
@@ -483,13 +485,14 @@ animation-charging-2 = 
 animation-charging-3 = 
 animation-charging-4 = 
 
+animation-charging-foreground = ${colors.foreground-alt}
+;
 ; animation-charging-0-foreground = ${colors.foregournd-alt}
 ; animation-charging-1-foreground = ${colors.foregournd-alt}
 ; animation-charging-2-foreground = ${colors.foregournd-alt}
 ; animation-charging-3-foreground = ${colors.foregournd-alt}
 ; animation-charging-4-foreground = ${colors.foregournd-alt}
 
-; animation-charging-foreground = ${colors.foreground-alt}
 animation-charging-framerate = 750
 
 ; [module/temperature]
