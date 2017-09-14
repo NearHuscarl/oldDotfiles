@@ -464,43 +464,7 @@ Plug 'NearHuscarl/lusty', {'on': [
          \ 'LustyFilesystemExplorerFromHere',
          \ 'LustyBufferGrep'
          \ ]}
-Plug 'ctrlpvim/ctrlp.vim', {'on': [
-         \ 'CtrlPMRU',
-         \ 'CtrlPRTS',
-         \ 'CtrlPBuffer',
-         \ 'CtrlPLine',
-         \ 'CtrlPChangeAll',
-         \ 'CtrlPTag',
-         \ 'CtrlPBufTagAll',
-         \ 'CtrlPRoot',
-         \ 'CtrlPCmdPalette',
-         \ 'CtrlPCmdline',
-         \ 'CtrlPFunky',
-         \ 'CtrlPYankring'
-         \ ]}
-Plug 'sgur/ctrlp-extensions.vim', {'on': [
-         \ 'CtrlPYankring',
-         \ 'CtrlPCmdline'
-         \ ]}
-Plug 'fisadev/vim-ctrlp-cmdpalette', {'on': 'CtrlPCmdPalette'}
-Plug 'tacahiroy/ctrlp-funky',        {'on': 'CtrlPFunky'}
-Plug 'FelikZ/ctrlp-py-matcher'
-Plug 'easymotion/vim-easymotion', {'on': [
-         \ '<Plug>(easymotion-bd-jk)',
-         \ '<Plug>(easymotion-s2)',
-         \ '<Plug>(easymotion-overwin-w)',
-         \ '<Plug>(easymotion-w)',
-         \ '<Plug>(easymotion-W)',
-         \ '<Plug>(easymotion-e)',
-         \ '<Plug>(easymotion-E)',
-         \ '<Plug>(easymotion-b)',
-         \ '<Plug>(easymotion-B)',
-         \ '<Plug>(easymotion-ge)',
-         \ '<Plug>(easymotion-gE)',
-         \ '<Plug>(easymotion-sn)',
-         \ '<Plug>(easymotion-next)',
-         \ '<Plug>(easymotion-prev)',
-         \ ]}
+Plug 'junegunn/fzf.vim'
 Plug 'Shougo/denite.nvim'
 
 Plug 'inside/vim-search-pulse', {'on': '<Plug>Pulse'}
@@ -724,89 +688,6 @@ vmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 let g:easy_align_ignore_groups = []       " Vim Align ignore comment by default
 "||]
-"[||[Easy Motion]
-let g:EasyMotion_keys       = 'abcdefghijklmnopqrstuvwxyz0123456789[];,./'
-let g:EasyMotion_do_mapping = 0                 " Diable default mapping
-let g:EasyMotion_smartcase  = 1
-
-highlight link EasyMotionTarget        ErrorMsg
-highlight link EasyMotionShade         Comment
-highlight link EasyMotionTarget2First  ErrorMsg
-highlight link EasyMotionTarget2Second SpellLocal
-highlight link EasyMotionMoveHL        Folded
-highlight link EasyMotionIncSearch     DiffAdd
-
-nmap <Leader>f  <Plug>(easymotion-s2)
-nmap <Leader>o  <Plug>(easymotion-overwin-w)
-nmap <Leader>w  <Plug>(easymotion-w)
-nmap <Leader>W  <Plug>(easymotion-W)
-nmap <Leader>e  <Plug>(easymotion-e)
-nmap <Leader>E  <Plug>(easymotion-E)
-nmap <Leader>b  <Plug>(easymotion-b)
-nmap <Leader>B  <Plug>(easymotion-B)
-nmap <Leader>ge <Plug>(easymotion-ge)
-nmap <Leader>gE <Plug>(easymotion-gE)
-nmap , <Plug>(easymotion-bd-jk)
-
-vmap , <Plug>(easymotion-bd-jk)
-vmap <Leader>f  <Plug>(easymotion-s2)
-vmap <Leader>F  <Plug>(easymotion-overwin-w)
-vmap <Leader>w  <Plug>(easymotion-w)
-vmap <Leader>W  <Plug>(easymotion-W)
-vmap <Leader>e  <Plug>(easymotion-e)
-vmap <Leader>E  <Plug>(easymotion-E)
-vmap <Leader>b  <Plug>(easymotion-b)
-vmap <Leader>B  <Plug>(easymotion-B)
-vmap <Leader>ge <Plug>(easymotion-ge)
-vmap <Leader>gE <Plug>(easymotion-gE)
-
-autocmd! User vim-easymotion
-         \  echom "Easy Motion has been loaded"
-         \| execute "EMCommandLineNoreMap <A-l> <Right>"
-         \| execute "EMCommandLineNoreMap <A-h> <Left>"
-         \| execute "EMCommandLineNoreMap <A-j> <Over>(em-scroll-f)"
-         \| execute "EMCommandLineNoreMap <A-k> <Over>(em-scroll-b)"
-         \| execute "EMCommandLineNoreMap <A-,> <Home>"
-         \| execute "EMCommandLineNoreMap <A-.> <End>"
-         \| execute "EMCommandLineNoreMap <A-;> <C-Left>"
-         \| execute "EMCommandLineNoreMap <A-'> <C-Right>"
-         \| execute "EMCommandLineNoreMap <A-9> <C-w>"
-         \| execute "EMCommandLineNoreMap <A-0> <C-Right><C-w><BS>"
-         \| execute "EMCommandLineNoreMap <A-u> <End><C-u>"
-         \| execute "EMCommandLineNoreMap <A-p> <C-p>"
-         \| execute "EMCommandLineNoreMap <A-n> <C-n>"
-         \| execute "EMCommandLineNoreMap <A-w> <C-r><C-w><CR>"
-         \| execute "EMCommandLineNoreMap <C-p> <Over>(paste)"
-         \| execute "EMCommandLineNoreMap <A-e> <Over>(buffer-complete)"
-         \| execute "EMCommandLineNoreMap <A-o> <Over>(em-jumpback)"
-         \| execute "EMCommandLineNoreMap <A-r> <Over>(em-openallfold)"
-         \| EMCommandLineNoreMap <A-\> <Esc>
-
-" LN
-if g:os == 'win'
-   let s:eMPath = '~\vimfiles\plugged\vim-easymotion\plugin\EasyMotion.vim'
-else
-   let s:eMPath = '~/.vim/plugged/vim-easymotion/plugin/EasyMotion.vim'
-endif
-
-if !empty(glob(s:eMPath))
-   nmap /  <Plug>(easymotion-sn)
-   vmap / y<Plug>(easymotion-sn)<C-r>"<CR>
-   nmap <silent> n <Plug>(easymotion-next)zz<Plug>Pulse
-   nmap <silent> N <Plug>(easymotion-prev)zz<Plug>Pulse
-else
-   nnoremap n nzz|                                    "Search result line will be centerized
-   nnoremap N Nzz|                                    "Search result line will be centerized
-endif
-
-"Put this in colorscheme file (only work for current colorscheme)
-"hi EasyMotionTarget ctermbg=none ctermfg=green
-"hi EasyMotionShade  ctermbg=none ctermfg=blue
-"hi EasyMotionTarget2First ctermbg=none ctermfg=red
-"hi EasyMotionTarget2Second ctermbg=none ctermfg=lightred
-"hi EasyMotionMoveHL ctermbg=green ctermfg=black
-"hi EasyMotionIncSearch ctermbg=green ctermfg=black
-"||]
 "[||[Emmet]
 let g:user_emmet_install_global = 0
 
@@ -919,129 +800,6 @@ let g:airline#extensions#tagbar#enabled = 1
 command! -nargs=* -bar -complete=customlist,man#completion#run Man  
          \ call plug#load('vim-man')
          \|call man#get_page('horizontal', <f-args>)
-"||]
-"[||[CtrlP]
-let g:ctrlp_open_new_file          = 'r'
-let g:ctrlp_open_multiple_files    = '2vjr'
-" cursor will be at the first openned file
-let g:ctrlp_max_files              = 50000
-let g:ctrlp_max_depth              = 40
-let g:ctrlp_show_hidden            = 1
-let g:ctrlp_regexp                 = 1
-let g:ctrlp_regexp                 = 0
-let g:ctrlp_match_window           = 'bottom,order:btt,min:1,max:30,results:30'
-let g:ctrlp_working_path_mode      = 'ra'
-let g:ctrlp_extensions             = ['']
-let g:ctrlp_buftag_ctags_bin       = 'E:\Program Files\ctags58'
-let g:ctrlp_funky_matchtype        = 'path'
-let g:ctrlp_funky_syntax_highlight = 1
-let g:ctrlp_yankring_limit         = 50
-let g:ctrlp_max_files              = 0
-let g:ctrlp_max_depth              = 60
-let g:ctrlp_cache_dir              = $HOME . '/.cache/ctrlp'
-
-"Use silver searcher to list files faster (way faster)
-"Ignore flag not working 100% of the time
-if executable('ag')
-   let g:ctrlp_user_command = 'ag %s -l --nocolor
-            \ --ignore=*.png
-            \ --ignore=*.PNG
-            \ --ignore=*.7z
-            \ --ignore=*.bin
-            \ --ignore=*.dll
-            \ --ignore=*.doc
-            \ --ignore=*.docx
-            \ --ignore=*.exe
-            \ --ignore=*.ico
-            \ --ignore=*.gif
-            \ --ignore=*.jpg
-            \ --ignore=*.jpeg
-            \ --ignore=*.mp3
-            \ --ignore=*.otf
-            \ --ignore=*.pak
-            \ --ignore=*.pdf
-            \ --ignore=*.png
-            \ --ignore=*.ppt
-            \ --ignore=*.pptx
-            \ --ignore=*.rar
-            \ --ignore=*.swp
-            \ --ignore=*.sfdm
-            \ --ignore=*.xls
-            \ --ignore=*.xlsx
-            \ --ignore=*.xnb
-            \ --ignore=*.zip
-            \ --hidden -g ""'
-else
-   let g:ctrlp_custom_ignore = {
-            \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-            \ 'file': '\v\.(7z|bin|dll|doc|docx|exe|ico|gif|jpg|jpeg|mp3|otf|pak|pdf|png|ppt|pptx|rar|swp|sfdm|xls|xlsx|xnb|zip)$',
-            \ }
-endif
-
-if has('python') || has('python3')
-   let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-endif
-
-let g:ctrlp_prompt_mappings = {
-         \ 'PrtBS()':              ['<A-Space>' , '<BS>'    , '<C-]>'   ],
-         \ 'PrtDeleteWord()':      ['<A-9>'     , '<C-w>'  ],
-         \ 'PrtClear()':           ['<A-/>'     , '<C-u>'  ],
-         \ 'PrtSelectMove("j")':   ['<A-j>'     , '<C-j>'   , '<Down>'  ],
-         \ 'PrtSelectMove("k")':   ['<A-k>'     , '<C-k>'   , '<Up>'    ],
-         \ 'PrtSelectMove("t")':   ['<A-,>'     , '<Home>'  , '<kHome>' ],
-         \ 'PrtSelectMove("b")':   ['<A-.>'     , '<End>'   , '<kEnd>'  ],
-         \ 'PrtHistory(-1)':       ['<A-n>'     , '<C-n>'  ],
-         \ 'PrtHistory(1)':        ['<A-p>'     , '<C-p>'  ],
-         \ 'AcceptSelection("e")': ['<A-e>'     , '<cr>'    , '<2-LeftMouse>'      ],
-         \ 'AcceptSelection("h")': ['<A-x>'     , '<C-x>'   , '<C-CR>'   , '<C-s>' ],
-         \ 'AcceptSelection("t")': ['<A-t>'     , '<C-t>'  ],
-         \ 'AcceptSelection("v")': ['<A-v>'     , '<C-v>'   , '<RightMouse>' ],
-         \ 'ToggleFocus()':        ['<Tab>'     , '<S-Tab>'],
-         \ 'ToggleRegex()':        ['<A-r>'     , '<C-r>'  ],
-         \ 'ToggleByFname()':      ['<A-g>'     , '<C-d>'  ],
-         \ 'ToggleType(1)':        ['<A-u>'     , '<C-f>'   , '<C-Up>'  ],
-         \ 'ToggleType(-1)':       ['<A-y>'     , '<C-b>'   , '<C-Down>'],
-         \ 'PrtExpandDir()':       ['<A-\>'    ],
-         \ 'PrtInsert("c")':       ['<A-c>'     , '<Insert>', '<MiddleMouse>'],
-         \ 'PrtInsert()':          ['<A-i>'     , '<C-\>'  ],
-         \ 'PrtCurStart()':        ['<A-0>'     , '<C-a>'  ],
-         \ 'PrtCurEnd()':          ['<A-5>'     , '<C-e>'  ],
-         \ 'PrtCurLeft()':         ['<A-h>'     , '<C-h>'   , '<Left>'   , '<C-^>' ],
-         \ 'PrtCurRight()':        ['<A-l>'     , '<C-l>'   , '<Right>' ],
-         \ 'PrtDeleteEnt()':       ['<A-q>'     , '<F7>'   ],
-         \ 'CreateNewFile()':      ['<A-w>'     , '<C-y>'  ],
-         \ 'MarkToOpen()':         ['<A-m>'     , '<C-z>'  ],
-         \ 'OpenMulti()':          ['<A-o>'     , '<C-o>'  ],
-         \ 'YankLine()':           [           ],
-         \ 'PrtExit()':            ['<A-[>'     , '<Esc>'   , '<C-c>'    , '<C-g>' ],
-         \ }
-"Move between words
-"Move between files
-
-let g:ctrlp_status_func = {
-        \ 'main': 'near#statusline#CtrlPStatusline1',
-        \ 'prog': 'near#statusline#CtrlPStatusline2',
-        \ }
-
-nnoremap <A-p>de :CtrlP C:\Users\Near\Desktop<CR>
-nnoremap <A-p>dd :CtrlP D:\Program Files<CR>
-nnoremap <A-p>d8 :CtrlP D:\Program Files (x86)<CR>
-nnoremap <A-p>ee :CtrlP E:\Program Files<CR>
-nnoremap <A-p>e8 :CtrlP E:\Program Files (x86)<CR>
-
-nnoremap <A-p>m  :CtrlPMRU<CR>|                          "Search Most-Recently-Used files
-nnoremap <A-p>R  :CtrlPRTS<CR>|                          "Search for files in runtimepath
-nnoremap <A-b>   :CtrlPBuffer<CR>|                       "Search buffer
-nnoremap <A-p>l  :CtrlPLine<CR>|                         "Search for a line in current buffer
-nnoremap <A-p>c  :CtrlPChangeAll<CR>|                    "Search for recent change in buffers
-nnoremap <A-p>tg :CtrlPTag<CR>|                          "Search for tag
-nnoremap <A-p>tb :CtrlPBufTagAll<CR>|                    "Search buffer tag
-nnoremap <A-p>r  :CtrlPRoot<CR>|                         "Search for file in root dir
-nnoremap <A-p>C  :CtrlPCmdPalette<CR>|                   "Search vim command
-nnoremap <A-p>f  :CtrlPFunky<CR>|                        "Search functions
-nnoremap <A-p>F  :CtrlPFunky<Space><C-r><C-w><CR>|       "Search functions name under cursor
-nnoremap <A-p>h  :CtrlPCmdline<CR>
-nnoremap <A-p>y  :CtrlPYankring<CR>
 "||]
 "[||[Denite]
 call denite#custom#map('insert', '<A-[>', '<denite:leave_mode>', 'noremap')
@@ -1184,7 +942,7 @@ autocmd BufEnter *
          \|set number
          \|set relativenumber
          \|if exists('b:winView') | call winrestview(b:winView) | endif
-         \|call near#statusline#SetStatusline()
+         \|call statusline#SetStatusline()
 
 autocmd BufLeave *
          \ set foldcolumn=0
@@ -1217,10 +975,10 @@ autocmd BufRead *.cpp,*.py
 autocmd QuickFixCmdPost * cwindow
 autocmd cursorhold * 
          \ set nohlsearch
-         \|let g:fileSize  = near#statusline#SetFileSize()
-         \|let g:wordCount = near#statusline#SetWordCount()
+         \|let g:fileSize  = statusline#SetFileSize()
+         \|let g:wordCount = statusline#SetWordCount()
 
-autocmd BufWritePost * let g:lastModified = near#statusline#SetLastModified()
+autocmd BufWritePost * let g:lastModified = statusline#SetLastModified()
 autocmd InsertEnter * 
          \ execute "normal! ma"
          \|call plug#load('neco-vim', 'neco-syntax', 'neoinclude.vim', 'neocomplete.vim', 'ultisnips')
