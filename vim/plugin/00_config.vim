@@ -62,6 +62,7 @@ set hidden                                         "Make buffer hidden once modi
 set ignorecase                                     "Ignore case when searching words
 set smartcase                                      "Overwrite ignorecase if query contains uppercase
 set incsearch                                      "Vim start searching while typing characters
+set hlsearch                                       "Highlight all search matchs
 set gdefault                                       "Substitute with flag g by default
 
 set cursorline                                     "Highlight current line
@@ -187,7 +188,7 @@ endif
 
 nnoremap <silent><Leader>S
          \ :source $MYVIMRC<Bar>
-         \ :set nohlsearch<CR><Bar>
+         \ :nohlsearch<CR><Bar>
          \ zi
 nnoremap <Leader>tv
          \ :e $MYVIMRC<Bar>
@@ -234,10 +235,6 @@ nnoremap <A-m>     <C-w>w|                         "Cycle through panes
 nnoremap <A-n>     <C-w>W|                         "Cycle through panes (backward)
 nnoremap <A-r>     <C-w>r|                         "Rotate pane down/right
 nnoremap <A-R>     <C-w>R|                         "Rotate pane up/left
-nnoremap <Leader>h <C-w>h|                         "Go to the left pane
-nnoremap <Leader>l <C-w>l|                         "Go to the right pane
-nnoremap <Leader>j <C-w>j|                         "Go to the pane below
-nnoremap <Leader>k <C-w>k|                         "Go to the pane above
 nnoremap <Leader>L <C-w>L|                         "Move current pane to the far left
 nnoremap <Leader>H <C-w>H|                         "Move current pane to the far right
 nnoremap <Leader>K <C-w>K|                         "Move current pane to the very top
@@ -281,8 +278,6 @@ nnoremap <expr><silent> J near#utils#NmapJ()|                 "In diff mode: go 
 nnoremap <expr><silent> K near#utils#NmapK()|                 "In diff mode: go to previous change
 nnoremap <expr><silent> du near#utils#Nmap_du()|              "Update diff if it doesnt update automatically
 nnoremap <expr><silent> q near#utils#Nmap_q()|                "Quit Key in diff
-nnoremap dt :diffthis<CR>|                                  "Diff 2 files
-nnoremap do :diffoff<CR>|                                   "Undiff 2 files
 
 command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|copen 20|redraw!
 nnoremap Kh :OpenHelpInTab<CR>|                    "Open help about the word under cursor
@@ -372,6 +367,9 @@ vnoremap <Leader>a y:Ag <C-r>"<Space>|             "Ag search (just like grep bu
 vnoremap <Leader>c y:CtrlP <C-r>"<CR>|             "CtrlP search
 vnoremap ; y:<C-r>"<CR>|                           "Execute selected command in visual block
 
+nnoremap <A-v> <C-q>|                              "Visual block
+vnoremap <A-v> <C-q>|                              "Visual block (Use to switch to VBlock from Visual)
+
 "Command mode mappings
 cnoremap <A-k> <C-r><C-w>|                         "Insert word under cursor
 cnoremap <A-a> <C-r><C-a>|                         "Insert WORD under cursor
@@ -404,16 +402,18 @@ nnoremap <Leader>rf :%s/|                          "Replace in whole file
 nnoremap <Leader>rb :bufdo %s/|                    "Replace across opening buffers
 nnoremap <Leader>rr :.,.+s//<Left><Left><Left>|    "Replace from current line to ...
 
+" Search mappings
+nnoremap n nzz
+nnoremap N Nzz
+
 "Misc Mappings
 nnoremap U :later 1f<CR>|                          "Go to the latest change
 nnoremap <F8> mzggg?G`z|                           "Encrypted with ROT13, just for fun
 nnoremap Q @q|                                     "Execute macro
-nnoremap <Leader>. >>|                             "Make indent easier
-nnoremap <Leader>, <<|                             "Make indent easier
+vnoremap > >gv|                                    "Make indent easier
+vnoremap < <gv|                                    "Make indent easier
 nnoremap <leader>py :echom expand("%:p")<CR>|      "Echo current file path
 nnoremap <A-u> <C-r>|                              "Redo
-nnoremap <A-v> <C-q>|                              "Visual block
-vnoremap <A-v> <C-q>|                              "Visual block (Use to switch to VBlock from Visual)
 nnoremap <A-F1> :ToggleMenuBar<CR>|                "Toggle menu bar
 nnoremap <Leader>N :nohlsearch<CR>|                "diable highlight result
 nnoremap <A-Space> a<Space><Left><esc>|            "Insert a whitespace
@@ -460,13 +460,20 @@ else
 endif
 
 call plug#begin(s:pluggedPath)
-Plug 'NearHuscarl/lusty', {'on': [
-         \ 'LustyFilesystemExplorerFromHere',
-         \ 'LustyBufferGrep'
-         \ ]}
 Plug 'junegunn/fzf.vim'
 Plug 'Shougo/denite.nvim'
 
+Plug 'haya14busa/incsearch.vim', {'on': [
+         \ '<Plug>(incsearch-forward)',
+         \ '<Plug>(incsearch-backward)',
+         \ '<Plug>(incsearch-stay)',
+         \ '<Plug>(incsearch-nohl-n)',
+         \ '<Plug>(incsearch-nohl-N)',
+         \ '<Plug>(incsearch-nohl-*)',
+         \ '<Plug>(incsearch-nohl-#)',
+         \ '<Plug>(incsearch-nohl-g*)',
+         \ '<Plug>(incsearch-nohl-g#)'
+         \ ]}
 Plug 'inside/vim-search-pulse', {'on': '<Plug>Pulse'}
 Plug 'bling/vim-bufferline'
 Plug 'majutsushi/tagbar', {'on': 'Tagbar'}
@@ -650,6 +657,16 @@ nnoremap <Leader>gsd :Glog! -S -- %<C-Left><C-Left><Left>|      "Search content 
 nnoremap <silent><Leader>gh 
          \ :!"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "https://github.com/NearHuscarl/.vimrc/commits/master/_vimrc"<CR><CR>
 "||]
+"[||[fzf]
+nnoremap <Leader>e :Files $HOME<CR>
+nnoremap <Leader><Leader>r :Files /<CR>
+nnoremap <Leader><Leader>h :History<CR>
+nnoremap <Leader>h :Helptags<CR>
+nnoremap <Leader>m :Maps<CR>
+nnoremap <Leader>l :Lines<CR>
+nnoremap <Leader>l :Lines<CR>
+nnoremap <Leader>b :Buffers<CR>
+"||]
 "[||[Gundo]
 if has('python3') && !has('python')
    let g:gundo_prefer_python3 = 1
@@ -699,7 +716,20 @@ let g:user_emmet_prev_key      = '<A-o>p'
 let g:user_emmet_removetag_key = '<A-o>r'
 "||]
 "[||[Eunuch]
-cnoremap w!! SudoWrite
+nnoremap <Leader>- :SudoWrite<CR>
+"||]
+"[||[Incsearch]
+let g:incsearch#auto_nohlsearch = 1
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+
+map n  <Plug>(incsearch-nohl-n)zz
+map N  <Plug>(incsearch-nohl-N)zz
+map *  <Plug>(incsearch-nohl-*)zz
+map #  <Plug>(incsearch-nohl-#)zz
+map g* <Plug>(incsearch-nohl-g*)zz
+map g# <Plug>(incsearch-nohl-g#)zz
 "||]
 "[||[Search Pulse]
 let g:vim_search_pulse_mode = 'pattern'
@@ -803,29 +833,6 @@ command! -nargs=* -bar -complete=customlist,man#completion#run Man
 "||]
 "[||[Denite]
 call denite#custom#map('insert', '<A-[>', '<denite:leave_mode>', 'noremap')
-"||]
-"[||[Lusty Explorer]
-nnoremap <silent> <A-p>u :LustyFilesystemExplorerFromHere<CR>
-nnoremap <silent> <A-p>L :LustyBufferGrep<CR>
-nmap <Leader>lj <Nop>
-nmap <Leader>lg <Nop>
-nmap <Leader>lb <Nop>
-nmap <Leader>lr <Nop>
-nmap <Leader>lf <Nop>
-"wip
-"<A-[> <Esc>
-"<A-j> <Down>
-"<A-k> <Up>
-"<A-o> <Enter>
-"<A-t> Open in tab
-"<A-x> Open in horizontal split
-"<A-v> Open in vertical split
-"<F5>  Refresh
-"<A-/> Clear
-"<A-u> Up one dir
-"<A-w> Create new file
-"<A-h> Navigate to the left
-"<A-l> Navigate to the right
 "||]
 "[||[Neocomplete]
 let g:neocomplete#enable_at_startup                 = 1 " Use neocomplete.
@@ -974,7 +981,7 @@ autocmd BufRead *.cpp,*.py
 
 autocmd QuickFixCmdPost * cwindow
 autocmd cursorhold * 
-         \ set nohlsearch
+         \ nohlsearch
          \|let g:fileSize  = statusline#SetFileSize()
          \|let g:wordCount = statusline#SetWordCount()
 
