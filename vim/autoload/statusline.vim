@@ -2,7 +2,7 @@
 " File:        statusline.vim
 " Description: Statusline setup for vim
 " Author:      Near Huscarl <near.huscarl@gmail.com>
-" Last Change: Wed Sep 06 06:06:37 +07 2017
+" Last Change: Thu Sep 14 08:56:20 +07 2017
 " Licence:     BSD 3-Clause license
 " Note:        N/A
 " ============================================================================
@@ -26,7 +26,7 @@ endfunc
 command! -nargs=+ Hi call Highlight(<f-args>)
 "||]
 "[||InitModeColor()
-function! near#statusline#InitModeColor()
+function! statusline#InitModeColor()
    let l:mode = mode()
    if l:mode ==# 'n'
       call s:Highlight("StatusLine", s:normal.fg, s:normal.bg)
@@ -47,11 +47,13 @@ function! near#statusline#InitModeColor()
 endfunction
 "||]
 "[||GetMode()]
-function! near#statusline#GetMode()
+function! statusline#GetMode()
    let l:mode = mode()
    if l:mode ==# 'n'
       return "NORMAL"
    elseif l:mode ==# 'i'
+      " echo "ahahhah"
+      " hi User2 ctermfg=1 ctermbg=4
       return "INSERT"
    elseif l:mode ==# "\<C-v>"
       return "VBLOCK"
@@ -67,7 +69,7 @@ function! near#statusline#GetMode()
 endfunction
 "||]
 "[||SetFileSize()
-function! near#statusline#SetFileSize()
+function! statusline#SetFileSize()
     let bytes = getfsize(expand("%:p"))
     if bytes <= 0
         return "0b"
@@ -82,7 +84,7 @@ function! near#statusline#SetFileSize()
 endfunction
 "||]
 "[||SetWordCount()
-function! near#statusline#SetWordCount()
+function! statusline#SetWordCount()
    "CtrlP fucked-up workaround
    if expand('%:t') == 'ControlP' || expand('%:t') == 'LustyExplorer--BufferGrep'
       return g:wordCount
@@ -113,7 +115,7 @@ function! s:Filename()
 endfunction
 "||]
 "[||SetModified()
-function! near#statusline#SetModified()
+function! statusline#SetModified()
    if &modified
       call s:Highlight("User1", s:modified.fg, s:modified.bg)
       return '+'
@@ -131,7 +133,7 @@ function! s:IsReadOnly()
 endfunction
 "||]
 "[||SetLastModified()
-function! near#statusline#SetLastModified()
+function! statusline#SetLastModified()
    if strftime(("%d/%m/%y %T"), getftime(expand('%:t'))) != '(Invalid)'
       return strftime(("%d/%m/%y %T"), getftime(expand('%:t')))
    endif
@@ -166,7 +168,7 @@ function! s:GitStatus()
 endfunction
 "||]
 "[||CtrlP_Statusline()
-function! near#statusline#CtrlPStatusline1(...)
+function! statusline#CtrlPStatusline1(...)
    let focus   = '%4* '.a:1.' |'
    let byfname = ' '.a:2.' %*'
    let regex   = a:3 ? ' regex %*' : ''
@@ -178,7 +180,7 @@ function! near#statusline#CtrlPStatusline1(...)
    return focus.byfname.regex.prv.item.nxt.marked.dir
 endfunction
 
-function! near#statusline#CtrlPStatusline2(...)
+function! statusline#CtrlPStatusline2(...)
    let len = '%4* ' . a:1 . ' %1*'
    let dir = '%=%<%4* ' . getcwd() . ' %*'
    return len.dir
@@ -186,12 +188,12 @@ endfunction
 "||]
 "[||SetStatusline()
 " This function is called when entering new buffer
-function! near#statusline#SetStatusline()
+function! statusline#SetStatusline()
    if has('statusline')
 
-      let g:fileSize     = near#statusline#SetFileSize()
-      let g:wordCount    = near#statusline#SetWordCount()
-      let g:lastModified = near#statusline#SetLastModified()
+      let g:fileSize     = statusline#SetFileSize()
+      let g:wordCount    = statusline#SetWordCount()
+      let g:lastModified = statusline#SetLastModified()
 
       if exists('g:loaded_fugitive')
          let g:gitStatus = s:GitStatus()
@@ -208,11 +210,11 @@ function! near#statusline#SetStatusline()
       "Statusline (requires Powerline font, with highlight groups using Solarized theme)
       setlocal statusline=
       setlocal statusline+=%{g:bufnumber}\ \|\ |              "Buffer number
-      setlocal statusline+=%{near#statusline#InitModeColor()} "Initiate mode color
-      setlocal statusline+=%{near#statusline#GetMode()}\ |    "Show Current mode
+      setlocal statusline+=%{statusline#InitModeColor()} "Initiate mode color
+      setlocal statusline+=%{statusline#GetMode()}\ |    "Show Current mode
       setlocal statusline+=%1*\ |                             "Switch to User1 highlight
       setlocal statusline+=%{g:filename}                      "Filename
-      setlocal statusline+=%{near#statusline#SetModified()}   "Append "+" after filename if modified
+      setlocal statusline+=%{statusline#SetModified()}   "Append "+" after filename if modified
       setlocal statusline+=%{g:isReadOnly}\ |                 "Is modificable or not
       setlocal statusline+=%2*\|\ |                           "Switch to User2 highlight
       setlocal statusline+=%{g:lastModified}\ |               "Last save time
@@ -231,29 +233,29 @@ function! near#statusline#SetStatusline()
 endfunction
 "||]
 
-let s:statusline_colors = g:colors_name
+let g:statusline_colors = g:colors_name
 try
    call near#themes#{g:colors_name}#isAvailable()
 catch
-   let s:statusline_colors = "solarized"
+   let g:statusline_colors = "solarized"
 endtry
 
 " Make variable easier to read
-let s:normal  = g:near#themes#{s:statusline_colors}#normal
-let s:insert  = g:near#themes#{s:statusline_colors}#insert
-let s:visual  = g:near#themes#{s:statusline_colors}#visual
-let s:vLine   = g:near#themes#{s:statusline_colors}#vLine
-let s:vBlock  = g:near#themes#{s:statusline_colors}#vBlock
-let s:replace = g:near#themes#{s:statusline_colors}#replace
-let s:prompt  = g:near#themes#{s:statusline_colors}#prompt
+let s:normal  = g:near#themes#{g:statusline_colors}#normal
+let s:insert  = g:near#themes#{g:statusline_colors}#insert
+let s:visual  = g:near#themes#{g:statusline_colors}#visual
+let s:vLine   = g:near#themes#{g:statusline_colors}#vLine
+let s:vBlock  = g:near#themes#{g:statusline_colors}#vBlock
+let s:replace = g:near#themes#{g:statusline_colors}#replace
+let s:prompt  = g:near#themes#{g:statusline_colors}#prompt
 
-let s:inactive = g:near#themes#{s:statusline_colors}#inactive
-let s:filename = g:near#themes#{s:statusline_colors}#filename
-let s:modified = g:near#themes#{s:statusline_colors}#modified
-let s:main     = g:near#themes#{s:statusline_colors}#main
-let s:branch   = g:near#themes#{s:statusline_colors}#branch
-let s:plugin   = g:near#themes#{s:statusline_colors}#plugin
-let s:none     = g:near#themes#{s:statusline_colors}#none
+let s:inactive = g:near#themes#{g:statusline_colors}#inactive
+let s:filename = g:near#themes#{g:statusline_colors}#filename
+let s:modified = g:near#themes#{g:statusline_colors}#modified
+let s:main     = g:near#themes#{g:statusline_colors}#main
+let s:branch   = g:near#themes#{g:statusline_colors}#branch
+let s:plugin   = g:near#themes#{g:statusline_colors}#plugin
+let s:none     = g:near#themes#{g:statusline_colors}#none
 
 " highlight! Statusline cterm=bold gui=bold
 " highlight! User4      cterm=bold gui=bold
