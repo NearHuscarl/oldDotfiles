@@ -155,7 +155,7 @@ if has('mksession')
 endif
 
 set history=10000                                  "Set number of commands and search to be remembered
-set grepprg=ag\ --nogroup\ --nocolor
+set grepprg=rg\ --vimgrep
 
 set wildignore+=*.7z,*.bin,*.doc,*.docx,*.exe,*.ico,*.gif,*.jpg,*.jpeg,*.mp3,*.otf,*.pak,*.pdf
 set wildignore+=*.png,*.ppt,*.pptx,*.rar,*.swp,*.sfdm,*.xls,*.xlsx,*.xnb,*.zip
@@ -461,7 +461,7 @@ endif
 
 call plug#begin(s:pluggedPath)
 Plug 'junegunn/fzf.vim'
-Plug 'Shougo/denite.nvim'
+Plug 'airblade/vim-rooter'
 
 Plug 'haya14busa/incsearch.vim', {'on': [
          \ '<Plug>(incsearch-forward)',
@@ -476,7 +476,6 @@ Plug 'haya14busa/incsearch.vim', {'on': [
          \ ]}
 Plug 'inside/vim-search-pulse', {'on': '<Plug>Pulse'}
 Plug 'bling/vim-bufferline'
-Plug 'majutsushi/tagbar', {'on': 'Tagbar'}
 
 Plug 'scrooloose/nerdtree', {'on': [
          \ 'NERDTreeTabsToggle',
@@ -503,27 +502,20 @@ Plug 'tpope/vim-eunuch', {'on': [
          \ 'SudoEdit'
          \ ]}
 
-Plug 'xolox/vim-misc',     {'on': []}
-Plug 'xolox/vim-shell',    {'on': []} "Requirement for easytags async to work on windows
-Plug 'xolox/vim-easytags', {'on': []}
-Plug 'xolox/vim-session',  {'on': []}
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-shell'
+Plug 'xolox/vim-easytags'
+Plug 'xolox/vim-session'
 
 Plug 'vim-scripts/OmniCppComplete', {'for': 'cpp'}
 
 Plug 'terryma/vim-smooth-scroll'
 
-if g:os == 'win'
-   " Plug 'mattn/vimtweak'
-   " Plug 'mattn/transparency-windows-vim' "need vimtweak to function
-endif
-
-" Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight', {'on': [
          \ 'NERDTreeTabsToggle',
          \ 'NERDTreeFind'
          \ ]}
 Plug 'octol/vim-cpp-enhanced-highlight', {'for': 'cpp'}
-" Plug 'flazz/vim-colorschemes'
 Plug 'pangloss/vim-javascript', {'on': []}
 Plug 'flowtype/vim-flow'
 Plug 'othree/html5.vim', {'on': []}
@@ -658,14 +650,72 @@ nnoremap <silent><Leader>gh
          \ :!"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" "https://github.com/NearHuscarl/.vimrc/commits/master/_vimrc"<CR><CR>
 "||]
 "[||[fzf]
-nnoremap <Leader>e :Files $HOME<CR>
-nnoremap <Leader><Leader>r :Files /<CR>
-nnoremap <Leader><Leader>h :History<CR>
-nnoremap <Leader>h :Helptags<CR>
-nnoremap <Leader>m :Maps<CR>
-nnoremap <Leader>l :Lines<CR>
-nnoremap <Leader>l :Lines<CR>
-nnoremap <Leader>b :Buffers<CR>
+" Recommend: use with vim-rooter
+let g:rg_command = '
+  \ rg --column --line-number --no-heading --fixed-strings --ignore-case --no-ignore --hidden --follow --color "always"
+  \ -g "*.{js,json,php,md,html,config,py,conf,vim}"
+  \ -g "{00_config,config}"
+  \ -g "!{.git,node_modules,vendor}/*" '
+
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Conditional'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'PreProc'],
+  \ 'info':    ['fg', 'String'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'String'],
+  \ 'marker':  ['fg', 'PreProc'],
+  \ 'spinner': ['fg', 'String'],
+  \ 'header':  ['fg', 'Comment'] }
+
+let g:fzfOpt='--bind=
+         \alt-k:up,
+         \alt-j:down,
+         \alt-i:abort,
+         \alt-h:backward-char,
+         \alt-l:forward-char,
+         \alt-n:backward-word,
+         \alt-m:forward-word,
+         \alt-e:jump,
+         \alt-v:toggle,
+         \alt-t:kill-line'
+
+command! -bang -nargs=* Grep
+         \ call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, {'options': g:fzfOpt}, <bang>0)
+command! -bang Colors
+         \ call fzf#vim#colors({'options': g:fzfOpt}, <bang>0)
+command! -bang Files
+         \ call fzf#vim#files(<q-args>, {'options': g:fzfOpt}, <bang>0)
+command! -bang History
+         \ call fzf#vim#history({'options': g:fzfOpt}, <bang>0)
+command! -bang Helptags
+         \ call fzf#vim#helptags({'options': g:fzfOpt}, <bang>0)
+command! -bang Tags
+         \ call fzf#vim#tags(<q-args>, {'options': g:fzfOpt}, <bang>0)
+command! -bang Maps
+         \ call fzf#vim#maps(<q-args>, {'options': g:fzfOpt}, <bang>0)
+command! -bang Lines
+         \ call fzf#vim#lines({'options': g:fzfOpt}, <bang>0)
+command! -bang Buffers
+         \ call fzf#vim#buffers({'options': g:fzfOpt}, <bang>0)
+
+nnoremap gr :Grep<Space>
+nnoremap <Leader>rg :Grep<CR>
+nnoremap <Leader>e/ :Files /<CR>
+nnoremap <Leader>er :Files<CR>         " when using with vim-rooter, search for files in root project folder
+nnoremap <Leader>eh :Files $HOME<CR>
+nnoremap <Leader>em :History<CR>
+nnoremap <Leader>h  :Helptags<CR>
+nnoremap <Leader>j  :Tags<CR>
+nnoremap <Leader>m  :Maps<CR>
+nnoremap <Leader>l  :Lines<CR>
+nnoremap <Leader>b  :Buffers<CR>
+"||]
+"[||[vim-rooter]
+let g:rooter_silent_chdir = 1
 "||]
 "[||[Gundo]
 if has('python3') && !has('python')
@@ -704,6 +754,13 @@ let g:NERDTreePatternMatchHighlightFullName  = 1
 vmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 let g:easy_align_ignore_groups = []       " Vim Align ignore comment by default
+"||]
+"[||[Easy Tag]
+let g:easytags_opts = ['--exclude=*vim/plugged/']
+let g:easytags_async = 1
+let g:easytags_dynamic_files = 2
+let g:easytags_events = ['BufWritePost']
+let g:easytags_auto_highlight = 0
 "||]
 "[||[Emmet]
 let g:user_emmet_install_global = 0
@@ -814,25 +871,11 @@ endif
 "[||[Table Mode]
 inoremap <A-t> <Esc>:TableModeToggle<CR>a
 "||]
-"[||[Tagbar]
-nnoremap <C-t> :Tagbar<CR>
-let g:tagbar_width                      = 30
-let g:tagbar_zoomwidth                  = 0
-let g:tagbar_sort                       = 0
-let g:tagbar_compact                    = 1
-let g:tagbar_show_linenumbers           = -1
-let g:tagbar_iconchars                  = ['►','▼']
-let g:tagbar_autoshowtag                = 1
-let g:airline#extensions#tagbar#enabled = 1
-"||]
 "[||[Vim-man]
 " ../vim-man/plugin/man.vim
 command! -nargs=* -bar -complete=customlist,man#completion#run Man  
          \ call plug#load('vim-man')
          \|call man#get_page('horizontal', <f-args>)
-"||]
-"[||[Denite]
-call denite#custom#map('insert', '<A-[>', '<denite:leave_mode>', 'noremap')
 "||]
 "[||[Neocomplete]
 let g:neocomplete#enable_at_startup                 = 1 " Use neocomplete.
@@ -936,7 +979,7 @@ endfunction
 "||]
 "[||[Autocmd]
 highlight ntCursor guifg=NONE guibg=NONE
-let blacklist = ['nerdtree', 'tagbar', 'qf', 'gundo', 'fugitiveblame', 'vim-plug']
+let blacklist = ['nerdtree', 'qf', 'gundo', 'fugitiveblame', 'vim-plug']
 
 autocmd BufEnter *
          \ if(index(blacklist, &filetype) < 0)
@@ -1002,3 +1045,5 @@ if has('gui_running')
    endif
 endif
 "||]
+
+
