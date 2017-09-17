@@ -117,7 +117,11 @@ if [ -x /usr/bin/mint-fortune ]; then
      /usr/bin/mint-fortune
 fi
 
-# Near settings
+# custom settings
+
+shopt -s autocd
+shopt -s extglob
+
 BOLD="\[$(tput bold)\]"
 BLACK="\[$(tput setaf 0)\]"
 RED="\[$(tput setaf 2)\]"
@@ -131,11 +135,11 @@ RESET="\[$(tput sgr0)\]"
 export PS1="${BOLD}${DBLUE}\u${GRAY}@${BOLD}${CYAN}\h${RESET} ${MAGENTA}\W ${RESET}\$ "
 
 # Add custom script directory to path
-export PATH=$PATH:~/bin/
+export PATH=$PATH:$HOME/bin/
 
 # run custom alias script in all session
-if [ -f ~/bin/aliases.sh ]; then
-    source ~/bin/aliases.sh
+if [ -f ~/bin/alias ]; then
+    source ~/bin/alias
 fi
 
 # run bash completion for custom alias script
@@ -144,8 +148,8 @@ if [ -f ~/bin/completion-wrapper.sh ]; then
 fi
 
 # run bashrc in all session
-if [ -f ~/bin/bashrc ]; then
-    source ~/bin/bashrc
+if [ -f ~/bin/fzf-script ]; then
+    source ~/bin/fzf-script
 fi
 
 # MPD daemon start (if no other user instance exists)
@@ -156,4 +160,14 @@ eval `keychain --eval --agents ssh id_rsa`
 
 # BROWSER=google-chrome-stable:firefox
 export BROWSER=google-chrome-stable
-export EDITOR=gvim
+export EDITOR=vim
+
+# ranger
+if [[ -x /usr/bin/ranger && -f $HOME/.config/ranger/rc.conf ]]; then
+   export RANGER_LOAD_DEFAULT_RC=FALSE
+fi
+
+if [[ -x /usr/bin/rg ]]; then
+   export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow *'
+   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+fi
