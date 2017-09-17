@@ -110,11 +110,8 @@ bindsym $mod+k focus up
 bindsym $mod+l focus right
 # bindsym $mod+semicolon focus right
 
-# move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+# lock screen
+bindsym $mod+Shift+l exec i3lock-fancy -f Roboto-Bold
 
 # start a terminal
 bindsym $mod+Return exec xfce4-terminal --disable-server
@@ -204,6 +201,7 @@ assign [class="Google-chrome"] $ws_web
 assign [class="Caprine"]       $ws_chat
 assign [class="Thunar"]        $ws_file
 assign [class="Thunderbird"]   $ws_mail
+assign [title="Ranger"]        $ws_file
 
 # autostart applications at specific workspaces
 # exec --no-startup-id i3-msg 'workspace $ws_music; append_layout /home/near/.config/i3/ws-music.json'
@@ -268,8 +266,10 @@ for_window [window_type="menu"]        floating enable
 for_window [class="Pavucontrol"]       floating enable
 for_window [class="File-roller"]       floating enable
 for_window [class="Nitrogen"]          floating enable
-for_window [class="Gucharmap"]          floating enable
+for_window [class="Gucharmap"]         floating enable
+for_window [class="Sxiv"]              floating enable
 for_window [title="Floating"]          floating enable
+# for_window [class="XTerm"]             floating enable
 
 # open certain window in fullscreen mode
 # for_window [title="^Developer Tools.*"] fullscreen enable
@@ -294,7 +294,8 @@ bindsym F4 \
   exec xfce4-terminal -e "ncmpcpp -s clock"      --title="Clock"
 
 bindsym F5 exec caprine; workspace $ws_chat
-bindsym F6 exec thunar; workspace $ws_file
+# bindsym F6 exec thunar; workspace $ws_file
+bindsym F6 exec xfce4-terminal --title="Ranger" -e "ranger"; workspace $ws_file
 bindsym F7 exec thunderbird; workspace $ws_mail
 bindsym F9 exec gnome-calculator
 bindsym ctrl+shift+n exec xfce4-terminal -e neofetch \
@@ -354,6 +355,6 @@ bindsym $mod+Shift+g mode "$mode_gaps_inner"
 # temp settings
 
 # reload polybar
-bindsym $mod+shift+p exec --no-startup-id $HOME/bin/rld-polybar.sh
+bindsym $mod+shift+p exec --no-startup-id $HOME/bin/reload-polybar.sh
 # bindsym $mod+y move scratchpad
 # bindsym $mod+p scratchpad show
