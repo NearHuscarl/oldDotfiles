@@ -26,3 +26,13 @@ fi
 rsync -rtpogusv --progress --delete /etc/systemd/system/ /home/near/Dropbox/root/systemd/system
 echo "backup music systemd files done"
 echo "backup completed!"
+
+# create pacman database backup
+printf "Compressing pacman database.."
+sudo tar -cjvf pacman_database.tar.bz2 /var/lib/pacman/local
+# move to somewhere safe
+sudo mv /pacman_database.tar.bz2 /home/near/Dropbox/
+
+# restore pacman_database.tar.bz2
+# mv /home/near/Dropbox/pacman_database.tar.bz2 /var/lib/pacman/local/
+# tar -xjvf pacman_database.tar.bz2

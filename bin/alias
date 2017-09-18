@@ -4,7 +4,7 @@
 # Description: Bash custom aliases and other alias functions, some alias have
 #              the equivalent completion as the original commands
 # Author:      Near Huscarl <near.huscarl@gmail.com>
-# Last Change: Wed Sep 13 20:40:07 +07 2017
+# Last Change: Sun Sep 17 17:34:10 +07 2017
 # Licence:     BSD 3-Clause license
 # Note:        N/A
 # ============================================================================
@@ -157,19 +157,21 @@ fi
 # Shortcuts to edit config file
 pkgList="compton dunst i3 git neofetch polybar"
 
-# if i3 exists?
-# for pkg in $pkgList; do
-#    if [[ -x /usr/bin/"$pkg" ]]; then
-#       alias "$pkg"-conf=""$eidtor" $HOME/.config/"$pkg""
-#    fi
-# done
-
+# config
 alias compton-conf="$editor $HOME/.config/compton.conf"
 alias dunst-conf="$editor $HOME/.config/dunst/dunstrc"
 alias i3-conf="$editor $HOME/.config/i3/config"
 alias git-conf="$editor $HOME/.config/git/config"
 alias neofetch-conf="$editor $HOME/.config/neofetch/config"
 alias polybar-conf="$editor $HOME/.config/polybar/config"
+alias mp-conf="$editor $HOME/.config/ncmpcpp/config"
+
+alias alias-e="$editor $HOME/bin/alias"
+alias bashrc="$editor $HOME/.bashrc"
+alias inputrc="$editor $HOME/.inputrc"
+alias todo="$editor $HOME/misc/Todo"
+alias plan="$editor $HOME/misc/plan"
+alias arch="$editor $HOME/misc/Arch.txt"
 
 # xprop
 alias xprop-class="xprop WM_CLASS"
@@ -185,25 +187,25 @@ alias pic-schedule="sxiv -f $HOME/Pictures/misc/schedule.png"
 alias pic-full="sxiv -f"
 alias thumnail="sxiv -f -t -b -r *"
 alias pic="alias-pic"
+alias sxiv="sxiv -b -s h"
+
+# fzf
+alias fz='alias-fzf'
+alias rgr='alias-rgr'
 
 # Other
 alias sa='source $HOME/bin/alias'
-alias sb='source $HOME/.bashrc'
+alias sb='source $HOME/.bashrc && clear'
 alias reboot='shutdown -r now'
 alias shutoff='shutdown -h now'
 
-alias alias-e="$editor $HOME/bin/alias"
+alias mkdir='mkdir -pv'
+# alias fd='sudo find / | grep'
 alias alsa-fix="sudo /usr/local/bin/alsa-fix.sh"
-alias bashrc="$editor $HOME/.bashrc"
-alias inputrc="$editor $HOME/.inputrc"
 alias music="ncmpcpp"
-alias mp-conf="$editor $HOME/.config/ncmpcpp/config"
-alias todo="$editor $HOME/misc/Todo"
-alias plan="$editor $HOME/misc/plan"
-alias arch="$editor $HOME/misc/Arch.txt"
 alias clock="tty-clock -s -c -D -C6"
 alias symlink="ln -s"
-alias fuck="sudo $(history -p !!)"
+alias fuck="sudo "$(history -p \!\!)""
 alias arg="!*"
 alias toggle-tray="alias-toggle-tray"
 

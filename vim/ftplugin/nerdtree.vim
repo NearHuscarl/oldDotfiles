@@ -5,7 +5,6 @@ if has('localmap')
    nnoremap <buffer> h 4k
    nnoremap <buffer> l 4j
    nnoremap <silent><buffer> q :q<CR>
-   nmap <buffer> , <Plug>(easymotion-bd-jk)
 
    nmap <buffer> o go <Bar> ;set guicursor=n:ntCursor<CR>
    nmap <buffer> x gx <Bar> ;set guicursor=n:ntCursor<CR>

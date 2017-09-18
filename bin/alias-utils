@@ -4,7 +4,7 @@
 # File:        alias-utils
 # Description: Function for custom alias script
 # Author:      Near Huscarl <near.huscarl@gmail.com>
-# Last Change: Wed Sep 13 20:44:44 +07 2017
+# Last Change: Sun Sep 17 17:35:54 +07 2017
 # Licence:     BSD 3-Clause license
 # Note:        N/A
 # ============================================================================
@@ -26,7 +26,7 @@ function alias-pac-update() {
 }
 
 # list nth last explicitly installed packages which is not in base/base-devel group 
-function pac-latest-e() {
+function alias-pac-latest-e() {
    explicitPkgs=$(comm -23 <(pacman -Qqe | sort) <(pacman -Qqg base base-devel | sort))
    expac -HM --timefmt='%Y-%m-%d %T' '%l\t%-20n\t%m' $explicitPkgs  | sort | tail -n ${1:-10}
 }
@@ -106,5 +106,14 @@ function alias-toggle-tray() {
       sed -i 's/^tray-position/;tray-position/' $HOME/.config/polybar/config
    else
       sed -i 's/^;tray-position/tray-position/' $HOME/.config/polybar/config
+   fi
+}
+
+function alias-rgr() {
+   rootDir=$(git rev-parse --show-toplevel 2> /dev/null)
+   if [[ $? == 0 ]]; then
+      rg "$@" $rootDir
+   else
+      rg "$@" $HOME
    fi
 }

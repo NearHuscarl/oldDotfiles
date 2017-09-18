@@ -347,10 +347,10 @@ inoremap <expr><A-u>   pumvisible() ? "\<C-x>"         : "\<Esc>0Di"
 
 inoremap <A-r> <C-r>*|                             "Paste in insert mode
 
-inoremap <A-[> <Esc><Right>|                       "Switch to normal mode from insert mode
-vnoremap <A-[> <Esc>|                              "Switch to normal mode from visual mode
-snoremap <A-[> <Esc>|                              "Switch to normal mode from select mode
-cnoremap <A-[> <C-c>|                              "Switch to normal mode from command mode
+inoremap <A-i> <Esc><Right>|                       "Switch to normal mode from insert mode
+vnoremap <A-i> <Esc>|                              "Switch to normal mode from visual mode
+snoremap <A-i> <Esc>|                              "Switch to normal mode from select mode
+cnoremap <A-i> <C-c>|                              "Switch to normal mode from command mode
 
 "Visual mappings
 nnoremap gV `[v`]|                                 "Visual select the last inserted text
@@ -381,6 +381,8 @@ cnoremap <A-;> <C-Left>|                           "Backward one word
 cnoremap <A-'> <C-Right>|                          "Forward one nail word
 cnoremap <A-n> <C-n>|                              "Go to the next command in history
 cnoremap <A-p> <C-p>|                              "Go to the previous command in history
+cnoremap <A-j> <C-n>|                              "Go to the next command in history
+cnoremap <A-k> <C-p>|                              "Go to the previous command in history
 cnoremap <A-h> <Left>|                             "Go to the left one character
 cnoremap <A-l> <Right>|                            "Go to the right one character
 cnoremap <A-,> <Home>|                             "Move to the beginning of the line
@@ -474,7 +476,6 @@ Plug 'haya14busa/incsearch.vim', {'on': [
          \ '<Plug>(incsearch-nohl-g*)',
          \ '<Plug>(incsearch-nohl-g#)'
          \ ]}
-Plug 'inside/vim-search-pulse', {'on': '<Plug>Pulse'}
 Plug 'bling/vim-bufferline'
 
 Plug 'scrooloose/nerdtree', {'on': [
@@ -687,9 +688,9 @@ command! -bang -nargs=* Grep
          \ call fzf#vim#grep(g:rg_command .shellescape(<q-args>), 1, {'options': g:fzfOpt}, <bang>0)
 command! -bang Colors
          \ call fzf#vim#colors({'options': g:fzfOpt}, <bang>0)
-command! -bang Files
+command! -bang -nargs=? -complete=dir Files
          \ call fzf#vim#files(<q-args>, {'options': g:fzfOpt}, <bang>0)
-command! -bang History
+command! -bang -nargs=* History
          \ call fzf#vim#history({'options': g:fzfOpt}, <bang>0)
 command! -bang Helptags
          \ call fzf#vim#helptags({'options': g:fzfOpt}, <bang>0)
@@ -697,9 +698,9 @@ command! -bang Tags
          \ call fzf#vim#tags(<q-args>, {'options': g:fzfOpt}, <bang>0)
 command! -bang Maps
          \ call fzf#vim#maps(<q-args>, {'options': g:fzfOpt}, <bang>0)
-command! -bang Lines
+command! -bang -nargs=* Lines
          \ call fzf#vim#lines({'options': g:fzfOpt}, <bang>0)
-command! -bang Buffers
+command! -bang -nargs=? -complete=buffer Buffers
          \ call fzf#vim#buffers({'options': g:fzfOpt}, <bang>0)
 
 nnoremap gr :Grep<Space>
@@ -787,21 +788,6 @@ map *  <Plug>(incsearch-nohl-*)zz
 map #  <Plug>(incsearch-nohl-#)zz
 map g* <Plug>(incsearch-nohl-g*)zz
 map g# <Plug>(incsearch-nohl-g#)zz
-"||]
-"[||[Search Pulse]
-let g:vim_search_pulse_mode = 'pattern'
-let g:vim_search_pulse_disable_auto_mappings = 1
-
-if has("GUI_running")
-   let g:vim_search_pulse_color_list = ['#9B271F', '#AE2C23', '#C23127']
-else
-   let g:vim_search_pulse_color_list = [28, 29, 30]
-endif
-
-nmap <A-8> *zz<Plug>Pulse
-nmap <A-7> #zz<Plug>Pulse
-autocmd User PrePulse  set guicursor=n:ntCursor
-autocmd User PostPulse execute "set guicursor&"
 "||]
 "[||[Fontsize]
 let g:fontsize#defaultSize = 8
@@ -1046,4 +1032,5 @@ if has('gui_running')
 endif
 "||]
 
-
+command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> -
+command! -complete=file -nargs=1 Rpdf :r !pdftotext -nopgbrk <q-args> - |fmt -csw78

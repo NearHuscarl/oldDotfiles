@@ -1,7 +1,3 @@
-call plug#load('vim-misc')
-call plug#load('vim-shell')
-call plug#load('vim-easytags')
-
 setlocal foldmethod=syntax
 
 if has('localmap')

@@ -1,10 +1,3 @@
-try
-   call plug#load('vim-misc')
-   call plug#load('vim-shell')
-   " execute "silent call plug#load('vim-easytags')"
-catch
-endtry
-
 if has('folding')
    let customMarkerList = ['00_config.vim', '_vimrc', 'init.vim', 'utils.vim', 'statusline.vim']
    setlocal foldmethod=marker
